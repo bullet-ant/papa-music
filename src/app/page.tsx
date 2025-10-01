@@ -10,7 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Download, X, ClipboardPaste, Loader2 } from "lucide-react";
+import {
+  Download,
+  X,
+  ClipboardPaste,
+  Loader2,
+  HeartHandshake,
+} from "lucide-react";
 
 import { useState } from "react";
 
@@ -100,16 +106,15 @@ export default function Home() {
     <div className="h-screen overflow-hidden">
       {/* Landing Page - Hero + Input Centered */}
       {showHero && (
-        <div className="flex flex-col items-center justify-center h-screen transition-all duration-500 ease-out">
-          <div className="mb-8 text-center fade-in">
-            <h1 className="text-6xl font-bold mb-2">Papa Music</h1>
-            <p className="text-muted-foreground text-lg">
-              Download audio from YouTube with ease
-            </p>
-          </div>
+        <div className="flex items-center justify-center h-screen transition-all duration-500 ease-out">
+          <div className="w-full max-w-2xl px-4">
+            {/* Hero positioned above input */}
+            <div className="mb-8 text-center fade-in">
+              <h1 className="text-6xl font-bold mb-2">Papa Music</h1>
+              <p className="text-muted-foreground text-lg"></p>
+            </div>
 
-          <div className="w-full max-w-2xl px-4 space-y-4">
-            {/* Input field with icons */}
+            {/* Input field with icons - this is the center anchor */}
             <div className="relative">
               <button
                 onClick={handlePaste}
