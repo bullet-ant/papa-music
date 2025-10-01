@@ -39,6 +39,8 @@ export default function Home() {
   const [showHero, setShowHero] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
   const isValidYouTubeUrl = (url: string) => {
     return url.includes("youtube.com/watch?v=") || url.includes("youtu.be/");
   };
@@ -63,7 +65,7 @@ export default function Home() {
     setHasResults(false);
     setIsTransitioning(false);
     try {
-      const res = await fetch("http://localhost:8000/extract", {
+      const res = await fetch(`${API_URL}/extract`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
