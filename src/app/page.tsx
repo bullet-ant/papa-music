@@ -39,7 +39,10 @@ export default function Home() {
   const [showHero, setShowHero] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  // Remove trailing slash from API_URL if present
+  const API_URL = (
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+  ).replace(/\/$/, "");
 
   const isValidYouTubeUrl = (url: string) => {
     return url.includes("youtube.com/watch?v=") || url.includes("youtu.be/");
