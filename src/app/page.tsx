@@ -18,7 +18,7 @@ import {
   HeartHandshake,
 } from "lucide-react";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface AudioStream {
   format: string;
@@ -38,6 +38,7 @@ export default function Home() {
   const [selectedStreamIndex, setSelectedStreamIndex] = useState<string>("0");
   const [showHero, setShowHero] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Remove trailing slash from API_URL if present
   const API_URL = (
@@ -51,6 +52,7 @@ export default function Home() {
   const handlePaste = async () => {
     const text = await navigator.clipboard.readText();
     setUrl(text);
+    inputRef.current?.focus();
   };
 
   const handleClear = () => {
@@ -123,11 +125,12 @@ export default function Home() {
             <div className="relative">
               <button
                 onClick={handlePaste}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hover:cursor-pointer"
               >
                 <ClipboardPaste className="h-5 w-5" />
               </button>
               <Input
+                ref={inputRef}
                 className="flex-1 h-12 pl-10 pr-24"
                 placeholder="paste the link here"
                 value={url}
@@ -142,7 +145,7 @@ export default function Home() {
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
                   <button
                     onClick={handleClear}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-500 hover:text-gray-700 hover:cursor-pointer"
                   >
                     <X className="h-5 w-5" />
                   </button>
@@ -150,7 +153,7 @@ export default function Home() {
                     <button
                       onClick={handleExtract}
                       disabled={loading}
-                      className="text-foreground hover:text-foreground/80"
+                      className="text-foreground hover:text-foreground/80 hover:cursor-pointer"
                     >
                       {loading ? (
                         <Loader2 className="h-5 w-5 animate-spin" />
@@ -172,10 +175,15 @@ export default function Home() {
 
       {/* Skeleton Loading State */}
       {loading && !showHero && (
-        <div className="flex flex-col items-center justify-center h-screen px-4">
+        <div className="flex items-center justify-center h-screen px-4">
           <div className="w-full max-w-2xl space-y-4">
+            {/* Compact Header above input - animated */}
+            <div className="text-center mb-4 slide-up-fade-in">
+              <h1 className="text-2xl font-bold">Papa Music</h1>
+            </div>
+
             {/* Input field */}
-            <div className="relative">
+            <div className="relative slide-up-fade-in">
               <button
                 onClick={handlePaste}
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
@@ -183,6 +191,7 @@ export default function Home() {
                 <ClipboardPaste className="h-5 w-5" />
               </button>
               <Input
+                ref={inputRef}
                 className="flex-1 h-12 pl-10 pr-24"
                 placeholder="paste the link here"
                 value={url}
@@ -214,8 +223,11 @@ export default function Home() {
               )}
             </div>
 
-            {/* Skeleton Card */}
-            <Card className={isTransitioning ? "fade-out" : ""}>
+            {/* Skeleton Card - animated */}
+            <Card
+              className={isTransitioning ? "fade-out" : "slide-up-fade-in"}
+              style={{ animationDelay: "0.1s" }}
+            >
               <CardContent className="p-4 space-y-3">
                 {/* Skeleton Thumbnail */}
                 <Skeleton className="w-full h-40 rounded-lg" />
@@ -242,8 +254,12 @@ export default function Home() {
 
       {/* Results Section - Single Card */}
       {hasResults && audioStreams.length > 0 && !loading && (
-        <div className="flex flex-col items-center justify-center h-screen px-4">
+        <div className="flex items-center justify-center h-screen px-4">
           <div className="w-full max-w-2xl space-y-4">
+            {/* Compact Header above input */}
+            <div className="text-center mb-4">
+              <h1 className="text-2xl font-bold">Papa Music</h1>
+            </div>
             {/* Input field */}
             <div className="relative">
               <button
@@ -253,6 +269,7 @@ export default function Home() {
                 <ClipboardPaste className="h-5 w-5" />
               </button>
               <Input
+                ref={inputRef}
                 className="flex-1 h-12 pl-10 pr-24"
                 placeholder="paste the link here"
                 value={url}
@@ -284,8 +301,11 @@ export default function Home() {
               )}
             </div>
 
-            {/* Results Card */}
-            <Card className="fade-in">
+            {/* Results Card - animated */}
+            <Card
+              className="slide-up-fade-in"
+              style={{ animationDelay: "0.1s" }}
+            >
               <CardContent className="p-4 space-y-3">
                 {/* Thumbnail - constrained height */}
                 {thumbnail && (
